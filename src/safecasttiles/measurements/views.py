@@ -9,10 +9,12 @@ from tmstiler.django import DjangoRasterTileLayerManager
 
 from .models import Measurement
 
+
 class Legend:
 
     def get_hsl_color(self, value):
         pass
+
 
 class SafecastMeasurementsTileView(View):
 
@@ -25,7 +27,7 @@ class SafecastMeasurementsTileView(View):
         for m in months:
             qs = Measurement.objects.filter(date=m)
             layers[m] = {
-                        "pixel_size": 250, # currently hard-coded in load_safecast_csv
+                        "pixel_size": 250,  # currently hard-coded in measurements.management.commands.load_safecast_csv
                         "point_position": "upperleft",
                         "model_queryset": qs,
                         "model_point_fieldname": "location",
@@ -34,7 +36,7 @@ class SafecastMeasurementsTileView(View):
                         }
         self.tilemgr = DjangoRasterTileLayerManager(layers)
 
-    @cache_page(60 * 120) # go ahead and cache for 2 hrs
+    @cache_page(60 * 120)  # go ahead and cache for 2 hrs
     def get(self, request):
         layername, zoom, x, y, image_format = self.tilemgr.parse_url(request.path)
         mimetype, tile_pil_img_object = self.tilemgr.get_tile(layername, zoom, x, y)
