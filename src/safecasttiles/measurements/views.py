@@ -15,7 +15,7 @@ SAFECAST_TILELAYER_PREFIX = "/tiles/"  # needs to match urls.py
 
 class Legend:
 
-    def get_color(self, value):
+    def get_color_str(self, value):
         """
         :param value:
         :return:  rgb or hsl color string in the format:
