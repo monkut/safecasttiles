@@ -1,11 +1,10 @@
 import json
 from collections import OrderedDict
 from urllib.parse import urljoin
+from io import BytesIO
 
 from django.http import HttpResponse
 from django.views.generic import View
-from django.views.decorators.cache import cache_page
-
 
 from tmstiler.django import DjangoRasterTileLayerManager
 
@@ -59,7 +58,10 @@ class SafecastMeasurementsTileView(View):
         layername, zoom, x, y, image_format = self.tilemgr.parse_url(request.path)
         mimetype, tile_pil_img_object = self.tilemgr.get_tile(layername, zoom, x, y)
         image_encoding = image_format.replace(".", "")
-        return HttpResponse(tile_pil_img_object.tobytes(encoder_name=image_encoding), content_type=mimetype)
+        image_fileio = BytesIO()
+        tile_pil_img_object.save(image_fileio, image_encoding)
+        image_fileio.seek(0)
+        return HttpResponse(image_fileio, content_type=mimetype)
 
 
 def get_month_layers(request):
