@@ -55,7 +55,6 @@ class SafecastMeasurementsTileView(View):
                         }
         self.tilemgr = DjangoRasterTileLayerManager(layers)
 
-    @cache_page(60 * 120)  # go ahead and cache for 2 hrs
     def get(self, request):
         layername, zoom, x, y, image_format = self.tilemgr.parse_url(request.path)
         mimetype, tile_pil_img_object = self.tilemgr.get_tile(layername, zoom, x, y)
