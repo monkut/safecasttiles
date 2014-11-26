@@ -14,8 +14,8 @@ function initmap() {
     var localTileLayerUrl = 'http://127.0.0.1:8000/tiles/layername/{z}/{x}/{y}.png';
 	var localTileLayer = new L.TileLayer(localTileLayerUrl, {minZoom: 8, maxZoom: 12, attribution: "mydata"});
 
-	// start the map in South-East England
-	map.setView(new L.LatLng(51.3, 0.7),9);
+	// start the map in Fukushima
+	map.setView(new L.LatLng(37.435793, 140.735437), 10);
 	map.addLayer(osm);
 	map.addLayer(localTileLayer);
 }
