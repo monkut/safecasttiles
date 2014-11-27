@@ -69,7 +69,7 @@ class SafecastMeasurementsTileView(View):
     def get(self, request):
         # debug for tile image display
         image_fileio = BytesIO()
-        tile_pil_img_object = Image.new("RGBA", (256, 256), (255,0,0, 0))
+        tile_pil_img_object = Image.new("RGBA", (256, 256), (255,0,0, 0.8))
         tile_pil_img_object.save(image_fileio, "png")
         image_fileio.seek(0)
         extension = ".png"
