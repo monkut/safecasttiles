@@ -57,23 +57,14 @@ class SafecastMeasurementsTileView(View):
                         }
         self.tilemgr = DjangoRasterTileLayerManager(layers)
 
-    # def get(self, request):
-    #     layername, zoom, x, y, image_format = self.tilemgr.parse_url(request.path)
-    #     mimetype, tile_pil_img_object = self.tilemgr.get_tile(layername, zoom, x, y)
-    #     image_encoding = image_format.replace(".", "")
-    #     image_fileio = BytesIO()
-    #     tile_pil_img_object.save(image_fileio, image_encoding)
-    #     image_fileio.seek(0)
-    #     return HttpResponse(image_fileio, content_type=mimetype)
-
     def get(self, request):
-        # debug for tile image display
+        layername, zoom, x, y, image_format = self.tilemgr.parse_url(request.path)
+        mimetype, tile_pil_img_object = self.tilemgr.get_tile(layername, zoom, x, y)
+        image_encoding = image_format.replace(".", "")
         image_fileio = BytesIO()
-        tile_pil_img_object = Image.new("RGBA", (256, 256), (255,0,0, 255))
-        tile_pil_img_object.save(image_fileio, "png")
+        tile_pil_img_object.save(image_fileio, image_encoding)
         image_fileio.seek(0)
-        extension = ".png"
-        return HttpResponse(image_fileio, content_type=mimetypes.types_map.get(extension))
+        return HttpResponse(image_fileio, content_type=mimetype)
 
 
 def get_month_layers(request):
