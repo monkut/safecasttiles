@@ -3,6 +3,8 @@ from collections import OrderedDict
 from urllib.parse import urljoin
 from io import BytesIO
 
+from PIL import Image
+
 from django.http import HttpResponse
 from django.views.generic import View
 
@@ -54,11 +56,19 @@ class SafecastMeasurementsTileView(View):
                         }
         self.tilemgr = DjangoRasterTileLayerManager(layers)
 
+    # def get(self, request):
+    #     layername, zoom, x, y, image_format = self.tilemgr.parse_url(request.path)
+    #     mimetype, tile_pil_img_object = self.tilemgr.get_tile(layername, zoom, x, y)
+    #     image_encoding = image_format.replace(".", "")
+    #     image_fileio = BytesIO()
+    #     tile_pil_img_object.save(image_fileio, image_encoding)
+    #     image_fileio.seek(0)
+    #     return HttpResponse(image_fileio, content_type=mimetype)
+
     def get(self, request):
-        layername, zoom, x, y, image_format = self.tilemgr.parse_url(request.path)
-        mimetype, tile_pil_img_object = self.tilemgr.get_tile(layername, zoom, x, y)
-        image_encoding = image_format.replace(".", "")
+        # debug for tile image display
         image_fileio = BytesIO()
+        tile_pil_img_object = Image.new("RGBA", (self.tile_pixels_width, self.tile_pixels_height), (255,255,255, 0))
         tile_pil_img_object.save(image_fileio, image_encoding)
         image_fileio.seek(0)
         return HttpResponse(image_fileio, content_type=mimetype)
