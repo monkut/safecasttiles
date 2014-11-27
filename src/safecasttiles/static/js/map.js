@@ -12,7 +12,7 @@ function initmap() {
 	var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
 	var osm = new L.TileLayer(osmUrl, {minZoom: 8, maxZoom: 12, attribution: osmAttrib});
     var localTileLayerUrl = 'http://10.143.166.17:8000/tiles/201108/{z}/{x}/{y}.png';
-	var localTileLayer = new L.TileLayer(localTileLayerUrl, {minZoom: 8, maxZoom: 12, attribution: "safecast.org"});
+	var localTileLayer = new L.TileLayer(localTileLayerUrl, {minZoom: 8, maxZoom: 12, attribution: "safecast.org", tms: true});
 
 	// start the map in Fukushima
 	map.setView(new L.LatLng(37.435793, 140.735437), 10);
