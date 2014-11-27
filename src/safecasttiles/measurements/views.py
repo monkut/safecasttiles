@@ -3,6 +3,7 @@ from collections import OrderedDict
 from urllib.parse import urljoin
 from io import BytesIO
 
+import mimetypes
 from PIL import Image
 
 from django.http import HttpResponse
@@ -69,9 +70,10 @@ class SafecastMeasurementsTileView(View):
         # debug for tile image display
         image_fileio = BytesIO()
         tile_pil_img_object = Image.new("RGBA", (256, 256), (255,255,255, 0))
-        tile_pil_img_object.save(image_fileio, image_encoding)
+        tile_pil_img_object.save(image_fileio, "png")
         image_fileio.seek(0)
-        return HttpResponse(image_fileio, content_type=mimetype)
+        extension = ".png"
+        return HttpResponse(image_fileio, content_type=mimetypes.types_map.get(extension))
 
 
 def get_month_layers(request):
