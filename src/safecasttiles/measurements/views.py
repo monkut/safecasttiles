@@ -58,7 +58,7 @@ class SafecastMeasurementsTileView(View):
             qs = Measurement.objects.filter(date=m)
             month_layername = m.strftime("%Y%m")
             layers[month_layername] = {
-                        "pixel_size": 250,  # currently hard-coded in measurements.management.commands.load_safecast_csv
+                        "pixel_size": 1500,  # currently hard-coded in measurements.management.commands.load_safecast_csv
                         "point_position": "upperleft",
                         "model_queryset": qs,
                         "model_point_fieldname": "location",
