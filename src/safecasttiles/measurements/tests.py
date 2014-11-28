@@ -52,8 +52,8 @@ class TestDjangoRasterTileLayerManager(TestCase):
         buffered_bbox = bbox.buffer(pixel_size_meters/2, quadsegs=2)
 
         # create dummy data in extent
-        upperright_x = tile_extent[0]  # minx
-        upperright_y = tile_extent[3]  # maxy
+        upperleft_x = tile_extent[0]  # minx
+        upperleft_y = tile_extent[3]  # maxy
 
         # create measurement instances for the left half of the tile
         # --> get the x halfway point
@@ -66,10 +66,11 @@ class TestDjangoRasterTileLayerManager(TestCase):
 
         # create Measurement() objects for half of the tile
         d = datetime.date(2014, 11, 28)
-        x = upperright_x
-        y = upperright_y
+        x = upperleft_x
+        y = upperleft_y
         created_measurement_count = 0
         while x <= halfx:
+            y = upperleft_y
             while y >= ymin:
                 point = Point(x, y, srid=SPHERICAL_MERCATOR_SRID)
                 m = Measurement(location=point,
