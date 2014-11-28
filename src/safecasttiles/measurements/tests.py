@@ -3,7 +3,7 @@ import datetime
 from PIL import Image, ImageDraw
 
 from django.test import TestCase
-from django.contrib.gis.geos import Polygon
+from django.contrib.gis.geos import Polygon, Point
 
 from safecasttiles.measurements.models import Measurement
 from tmstiler.rtm import RasterTileManager
@@ -37,13 +37,15 @@ class TestDjangoRasterTileLayerManager(TestCase):
 
     def test_get_tile(self):
         pixel_size_meters = 250
+        tile_pixel_size = 256
         zoom = 10
         tilex = 911
         tiley = 626
 
+
         rtmgr = RasterTileManager()
 
-        tile_extent = rtm.tile_sphericalmercator_extent(z, tilex, tiley)
+        tile_extent = rtmgr.tile_sphericalmercator_extent(zoom, tilex, tiley)
         bbox = Polygon.from_bbox(tile_extent)
         buffered_bbox = bbox.buffer(pixel_size_meters/2, quadsegs=2)
 
@@ -55,12 +57,10 @@ class TestDjangoRasterTileLayerManager(TestCase):
         # --> get the x halfway point
         xmin = tile_extent[0]  # minx
         xmax = tile_extent[2]  # maxx
+        ymin = tile_extent[1]  # miny
         tile_width = xmax - xmin
         half_tile_width = tile_width/2
         halfx = xmin + half_tile_width
-
-        ymin = tile_extent[1]
-
 
         # create Measurement() objects for half of the tile
         d = datetime.date(2014, 11, 28)
@@ -80,13 +80,13 @@ class TestDjangoRasterTileLayerManager(TestCase):
             x += pixel_size_meters
 
         # pull created data
-        temp_measurements = Measuremenet.objects.filter(location_within=buffered_bbox)
+        temp_measurements = Measurement.objects.filter(location_within=buffered_bbox)
         query_result_count = temp_measurements.count()
         self.assertTrue(query_result_count == created_measurement_count, "Retrieved Meaurement Count({}) != created count({})".format(query_result_count,
                                                                                                                                       created_measurement_count))
 
         # create tile image from pulled data
-        tile_image = Image.new("RGBA", (self.tile_pixels_width, self.tile_pixels_height), (255,255,255, 0))
+        tile_image = Image.new("RGBA", (tile_pixel_size, tile_pixel_size), (255,255,255, 0))
         draw = ImageDraw.Draw(tile_image)
         legend = Legend()
         for pixel in temp_measurements:
