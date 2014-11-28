@@ -132,4 +132,6 @@ class TestDjangoRasterTileLayerManager(TestCase):
         # confirm that half of image is red
         # --> get percentage of image that is red.
         color_counts = tile_image.getcolors()  #
-        print(color_counts)
+        red = (255, 0, 0, 255)
+        red_percentage = sum(count for count, color in color_counts if color == red)/len(color_counts)
+        self.assertTrue(red_percentage >= 0.48, "Resulting Tile image Red({}%) < 0.48{}".format(red_percentage))
