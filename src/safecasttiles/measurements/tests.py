@@ -134,4 +134,4 @@ class TestDjangoRasterTileLayerManager(TestCase):
         color_counts = tile_image.getcolors()  #
         red = (255, 0, 0, 255)
         red_percentage = sum(count for count, color in color_counts if color == red)/sum(count for count, _ in color_counts)
-        self.assertTrue(red_percentage >= 0.48, "Resulting Tile image Red({}) < 0.48".format(red_percentage))
+        self.assertTrue(red_percentage >= 0.48, "Resulting Tile image Red({}) < 0.48".format(round(red_percentage, 4)))
