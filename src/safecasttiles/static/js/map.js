@@ -26,6 +26,20 @@ function initmap() {
 	var localTileLayer = new L.TileLayer(localTileLayerUrl, {minZoom: 8, maxZoom: 12, attribution: "safecast.org", tms: true});
     L.control.scale({metric: true, imperial: false}).addTo(map);
 
+    // add layername label
+    var info = L.control();
+
+    info.onAdd = function (map) {
+        this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+        this.update();
+        return this._div;
+    };
+    // method that we will use to update the control based on feature properties passed (update function ote used atm)
+    info.update = function (props) {
+        this._div.innerHTML = '<h4>' + localLayerName + '</h4>';
+    };
+    info.addTo(map);
+
 	// start the map in Fukushima
 	map.setView(new L.LatLng(37.435793, 140.735437), 10);
 	map.addLayer(osm);
