@@ -85,19 +85,20 @@ class Command(BaseCommand):
                         self.stderr.write("Invalid date({}), skipping!".format(row["Captured Time"]))
                         continue
                     date_key = dt.strftime("%Y-%m")
-                    if row["Unit"] == "cpm":
-                        if row["Value"]:
-                            # convert cpm to usv
-                            cpm_value =  int(float(row["Value"]))
-                            usv_value = cpm2usv(cpm_value)
+                    if row["Value"]:
+                        if row["Unit"].lower() == "cpm":
+
+                                # convert cpm to usv
+                                cpm_value =  int(float(row["Value"]))
+                                usv_value = cpm2usv(cpm_value)
+                                day_sum_data[date_key][binned_p.ewkt] += usv_value
+                                day_counts_data[date_key][binned_p.ewkt] += 1
+                        elif row["Unit"].lower() in ("usv", "microsievert"):
+                            usv_value =  float(row["Value"])
                             day_sum_data[date_key][binned_p.ewkt] += usv_value
                             day_counts_data[date_key][binned_p.ewkt] += 1
-                    elif row["Unit"] in ("usv", "microsievert"):
-                        usv_value =  float(row["Value"])
-                        day_sum_data[date_key][binned_p.ewkt] += usv_value
-                        day_counts_data[date_key][binned_p.ewkt] += 1
-                    else:
-                        self.stderr.write("Warning -- Unknown units: {}".format(row["Unit"]))
+                        else:
+                            self.stderr.write("Warning -- Unknown units: {}".format(row["Unit"]))
 
         # once counts are aggregated per bin create & commit Measurement instances
         self.stdout.write("Committing values...")
