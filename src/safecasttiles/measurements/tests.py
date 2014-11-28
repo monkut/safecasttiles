@@ -67,7 +67,6 @@ class TestDjangoRasterTileLayerManager(TestCase):
         # create Measurement() objects for half of the tile
         d = datetime.date(2014, 11, 28)
         x = upperleft_x
-        y = upperleft_y
         created_measurement_count = 0
         while x <= halfx:
             y = upperleft_y
