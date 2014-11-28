@@ -68,7 +68,7 @@ class TestDjangoRasterTileLayerManager(TestCase):
         y = upperright_y
         created_measurement_count = 0
         while x <= halfx:
-            while y <= ymin:
+            while y >= ymin:
                 point = Point(x, y, srid=SPHERICAL_MERCATOR_SRID)
                 m = Measurement(location=point,
                                 date=d,
