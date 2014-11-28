@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw
 from django.test import TestCase
 from django.contrib.gis.geos import Polygon
 
-from safecasttiles.measurements.models import Measuremenet
+from safecasttiles.measurements.models import Measurement
 from tmstiler.rtm import RasterTileManager
 
 
