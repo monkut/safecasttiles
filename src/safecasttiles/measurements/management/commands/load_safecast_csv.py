@@ -93,7 +93,7 @@ class Command(BaseCommand):
                             day_sum_data[date_key][binned_p.ewkt] += usv_value
                             day_counts_data[date_key][binned_p.ewkt] += 1
                     elif row["Unit"] in ("usv", "microsievert"):
-                        usv_value =  int(float(row["Value"]))
+                        usv_value =  float(row["Value"])
                         day_sum_data[date_key][binned_p.ewkt] += usv_value
                         day_counts_data[date_key][binned_p.ewkt] += 1
                     else:
