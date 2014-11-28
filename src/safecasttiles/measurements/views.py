@@ -1,10 +1,8 @@
 import json
+import logging
 from collections import OrderedDict
 from urllib.parse import urljoin
 from io import BytesIO
-
-import mimetypes
-from PIL import Image
 
 from django.http import HttpResponse
 from django.views.generic import View
@@ -14,6 +12,10 @@ from tmstiler.django import DjangoRasterTileLayerManager
 from .models import Measurement
 
 SAFECAST_TILELAYER_PREFIX = "/tiles/"  # needs to match urls.py
+
+# Get an instance of a logger
+logger = logging.getLogger(__name__)
+
 
 class Legend:
 
@@ -33,7 +35,15 @@ class Legend:
 
         For example, hsl(0,100%,50%) is pure red.
         """
-        return "hsl(0,100%,50%)"  # pure red for now...
+        max_value = 3.99
+        min_value = 0.03
+        full_range = max_value - min_value
+        max_h = 61
+        min_h = 246
+        color_range = min_h - max_h
+        value_percentage = (value - min_value)/full_range
+        h = int(color_range - (value_percentage * color_range))
+        return "hsl({}, 100%, 50%)".format(h)
 
 
 class SafecastMeasurementsTileView(View):
@@ -59,6 +69,7 @@ class SafecastMeasurementsTileView(View):
 
     def get(self, request):
         layername, zoom, x, y, image_format = self.tilemgr.parse_url(request.path)
+        logger.info("layername({}) zoom({}) x({}) y({}) image_format({})".format(layername, zoom, x, y, image_format))
         mimetype, tile_pil_img_object = self.tilemgr.get_tile(layername, zoom, x, y)
         image_encoding = image_format.replace(".", "")
         image_fileio = BytesIO()
