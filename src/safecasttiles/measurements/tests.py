@@ -34,6 +34,10 @@ class Legend:
 
 
 class TestDjangoRasterTileLayerManager(TestCase):
+    """
+    Tsetcase for testing DjangoRasterTileLayerManager, also tests pixel transform of RTM.
+    (probably should incorporate this into rtm lib...)
+    """
 
     def test_get_tile(self):
         pixel_size_meters = 250
@@ -41,13 +45,9 @@ class TestDjangoRasterTileLayerManager(TestCase):
         zoom = 10
         tilex = 911
         tiley = 626
-
-
         rtmgr = RasterTileManager()
 
         tile_extent = rtmgr.tile_sphericalmercator_extent(zoom, tilex, tiley)
-        #debug
-        print(tile_extent)
         bbox = Polygon.from_bbox(tile_extent)
         buffered_bbox = bbox.buffer(pixel_size_meters/2, quadsegs=2)
 
@@ -80,7 +80,6 @@ class TestDjangoRasterTileLayerManager(TestCase):
                 created_measurement_count += 1
                 y -= pixel_size_meters
             x += pixel_size_meters
-        print("Created Measurement Count: {}".format(created_measurement_count))
 
         # pull created data
         temp_measurements = Measurement.objects.filter(location__within=buffered_bbox)
@@ -113,23 +112,15 @@ class TestDjangoRasterTileLayerManager(TestCase):
             # --> min values
             xmin, ymin = sphericalmercator_bbox[:2]
             pxmin, pymin = rtmgr.sphericalmercator_to_pixel(zoom, tilex, tiley, xmin, ymin)
-            #debug
-            print("Minpixel sm({}, {}) pixel({}, {})".format(xmin, ymin,
-                                                             pxmin, pymin))
 
             # --> max values
             xmax, ymax = sphericalmercator_bbox[2:]
             pxmax, pymax = rtmgr.sphericalmercator_to_pixel(zoom, tilex, tiley, xmax, ymax )
-            #debug
-            print("Maxpixel sm({}, {}) pixel({}, {})".format(xmax, ymax,
-                                                             pxmax, pymax))
-
             pixel_poly_bbox = Polygon.from_bbox((pxmin, pymin, pxmax, pymax))
 
             # draw pixel on tile
             draw.polygon(pixel_poly_bbox.coords[0], fill=color_str)
             processed_pixel_count += 1
-        print("Processed Pixels: {}".format(processed_pixel_count))
 
         # confirm that half of image is red
         # --> get percentage of image that is red.
