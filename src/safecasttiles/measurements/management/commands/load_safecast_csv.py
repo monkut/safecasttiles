@@ -14,6 +14,14 @@ from ...models import Measurement
 
 SPHERICAL_MERCATOR_SRID = 3857 # google maps projection
 
+def cpm2usv(cpm_value):
+    """
+    Using chart at:
+    http://nukeprofessional.blogspot.jp/2012/04/geiger-counter-interpretation.html
+    """
+    usv_per_click = 0.1/12
+    return cpm_value * usv_per_click
+
 
 
 
@@ -67,7 +75,11 @@ class Command(BaseCommand):
                     binned_x = p.x - (p.x % pixelsize)  # shift left
                     binned_y = p.y + (pixelsize - (p.y % pixelsize))  # shift up
                     binned_p = Point(binned_x, binned_y, srid=SPHERICAL_MERCATOR_SRID)
-                    dt =  datetime.datetime.strptime(row["Captured Time"], "%Y-%m-%d %H:%M:%S")
+
+                    try:
+                        dt =  datetime.datetime.strptime(row["Captured Time"], "%Y-%m-%d %H:%M:%S")
+                    except ValueError:
+                        dt = datetime.datetime.strptime(row["Captured Time"], "%Y-%m-%d %H:%M:%S.%f")
                     # skip values defined in the future
                     if dt.year > start.year:
                         self.stderr.write("Invalid date({}), skipping!".format(row["Captured Time"]))
@@ -75,8 +87,15 @@ class Command(BaseCommand):
                     date_key = dt.strftime("%Y-%m")
                     if row["Unit"] == "cpm":
                         if row["Value"]:
-                            day_sum_data[date_key][binned_p.ewkt] += int(float(row["Value"]))
+                            # convert cpm to usv
+                            cpm_value =  int(float(row["Value"]))
+                            usv_value = cpm2usv(cpm_value)
+                            day_sum_data[date_key][binned_p.ewkt] += usv_value
                             day_counts_data[date_key][binned_p.ewkt] += 1
+                    elif row["Unit"] in ("usv", "microsievert"):
+                        usv_value =  int(float(row["Value"]))
+                        day_sum_data[date_key][binned_p.ewkt] += usv_value
+                        day_counts_data[date_key][binned_p.ewkt] += 1
                     else:
                         self.stderr.write("Warning -- Unknown units: {}".format(row["Unit"]))
 
