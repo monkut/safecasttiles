@@ -80,7 +80,7 @@ class TestDjangoRasterTileLayerManager(TestCase):
             x += pixel_size_meters
 
         # pull created data
-        temp_measurements = Measurement.objects.filter(location_within=buffered_bbox)
+        temp_measurements = Measurement.objects.filter(location__within=buffered_bbox)
         query_result_count = temp_measurements.count()
         self.assertTrue(query_result_count == created_measurement_count, "Retrieved Meaurement Count({}) != created count({})".format(query_result_count,
                                                                                                                                       created_measurement_count))
