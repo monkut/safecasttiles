@@ -79,7 +79,12 @@ class Command(BaseCommand):
                     try:
                         dt =  datetime.datetime.strptime(row["Captured Time"], "%Y-%m-%d %H:%M:%S")
                     except ValueError:
-                        dt = datetime.datetime.strptime(row["Captured Time"], "%Y-%m-%d %H:%M:%S.%f")
+                        try:
+                            dt = datetime.datetime.strptime(row["Captured Time"], "%Y-%m-%d %H:%M:%S.%f")
+                        except ValueError:
+                            self.stderr.write("Invalid date({}) format, skipping!".format(row["Captured Time"]))
+                            continue
+
                     # skip values defined in the future
                     if dt.year > start.year:
                         self.stderr.write("Invalid date({}), skipping!".format(row["Captured Time"]))
