@@ -89,8 +89,10 @@ class TestDjangoRasterTileLayerManager(TestCase):
         tile_image = Image.new("RGBA", (tile_pixel_size, tile_pixel_size), (255,255,255, 0))
         draw = ImageDraw.Draw(tile_image)
         legend = Legend()
+        processed_pixel_count = 0
         for pixel in temp_measurements:
             color_str = legend.get_color_str(pixel.value)
+            self.assertTrue(color_str == "hsl(0,100%,50%)")
 
             # pixel x, y expected to be in spherical-mercator
             # attempt to transform, note if srid is not defined this will generate an error
@@ -108,13 +110,23 @@ class TestDjangoRasterTileLayerManager(TestCase):
             # --> min values
             xmin, ymin = sphericalmercator_bbox[:2]
             pxmin, pymin = rtmgr.sphericalmercator_to_pixel(zoom, tilex, tiley, xmin, ymin)
+            #debug
+            print("Minpixel sm({}, {}) pixel({}, {})".format(xmin, ymin,
+                                                             pxmin, pymin))
+
             # --> max values
             xmax, ymax = sphericalmercator_bbox[2:]
             pxmax, pymax = rtmgr.sphericalmercator_to_pixel(zoom, tilex, tiley, xmax, ymax )
+            #debug
+            print("Maxpixel sm({}, {}) pixel({}, {})".format(xmax, ymax,
+                                                             pxmax, pymax))
+
             pixel_poly_bbox = Polygon.from_bbox((pxmin, pymin, pxmax, pymax))
 
             # draw pixel on tile
             draw.polygon(pixel_poly_bbox.coords[0], fill=color_str)
+            processed_pixel_count += 1
+        print("Processed Pixels: {}".format(processed_pixel_count))
 
         # confirm that half of image is red
         # --> get percentage of image that is red.
