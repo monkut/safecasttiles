@@ -46,6 +46,8 @@ class TestDjangoRasterTileLayerManager(TestCase):
         rtmgr = RasterTileManager()
 
         tile_extent = rtmgr.tile_sphericalmercator_extent(zoom, tilex, tiley)
+        #debug
+        print(tile_extent)
         bbox = Polygon.from_bbox(tile_extent)
         buffered_bbox = bbox.buffer(pixel_size_meters/2, quadsegs=2)
 
