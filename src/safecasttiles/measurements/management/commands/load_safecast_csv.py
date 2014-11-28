@@ -75,7 +75,7 @@ class Command(BaseCommand):
                     date_key = dt.strftime("%Y-%m")
                     if row["Unit"] == "cpm":
                         if row["Value"]:
-                            day_sum_data[date_key][binned_p.ewkt] += int(row["Value"])
+                            day_sum_data[date_key][binned_p.ewkt] += int(float(row["Value"]))
                             day_counts_data[date_key][binned_p.ewkt] += 1
                     else:
                         self.stderr.write("Warning -- Unknown units: {}".format(row["Unit"]))
