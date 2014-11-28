@@ -50,9 +50,9 @@ class Command(BaseCommand):
             dreader = csv.DictReader(io.TextIOWrapper(in_csv))
             self.stdout.write("Aggregating CSV values...")
             for row in dreader:
-                if row and row["lng"] and row["lat"]:
-                    lng = float(row["lng"])
-                    lat = float(row["lat"])
+                if row and row["Longitude"] and row["Latitude"]:
+                    lng = float(row["Longitude"])
+                    lat = float(row["Latitude"])
                     if not (-90 <= lat <= 90):
                         # values added incorrectly, invert
                         p = Point(lat, lng, srid=4326)
@@ -67,18 +67,18 @@ class Command(BaseCommand):
                     binned_x = p.x - (p.x % pixelsize)  # shift left
                     binned_y = p.y + (pixelsize - (p.y % pixelsize))  # shift up
                     binned_p = Point(binned_x, binned_y, srid=SPHERICAL_MERCATOR_SRID)
-                    dt =  datetime.datetime.strptime(row["captured_at"], "%Y-%m-%d %H:%M:%S")
+                    dt =  datetime.datetime.strptime(row["Captured Time"], "%Y-%m-%d %H:%M:%S")
                     # skip values defined in the future
                     if dt.year > start.year:
-                        self.stderr.write("Invalid date({}), skipping!".format(row["captured_at"]))
+                        self.stderr.write("Invalid date({}), skipping!".format(row["Captured Time"]))
                         continue
                     date_key = dt.strftime("%Y-%m")
-                    if row["unit"] == "cpm":
-                        if row["value"]:
-                            day_sum_data[date_key][binned_p.ewkt] += int(row["value"])
+                    if row["Unit"] == "cpm":
+                        if row["Value"]:
+                            day_sum_data[date_key][binned_p.ewkt] += int(row["Value"])
                             day_counts_data[date_key][binned_p.ewkt] += 1
                     else:
-                        self.stderr.write("Warning -- Unknown units: {}".format(row["unit"]))
+                        self.stderr.write("Warning -- Unknown units: {}".format(row["Unit"]))
 
         # once counts are aggregated per bin create & commit Measurement instances
         self.stdout.write("Committing values...")
