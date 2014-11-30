@@ -9,7 +9,7 @@ from django.views.generic import View
 
 from tmstiler.django import DjangoRasterTileLayerManager
 
-from .models import Measurement
+from .models import MeasurementLayer, Measurement
 
 SAFECAST_TILELAYER_PREFIX = "/tiles/"  # needs to match urls.py
 
@@ -50,6 +50,9 @@ class SafecastMeasurementsTileView(View):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        # get layer.. should only be one
+        mlayer = MeasurementLayer.objects.get(pk=1)
+
         # create per month layers
         months = Measurement.objects.order_by("date").values_list('date', flat=True).distinct()
         layers = OrderedDict()
@@ -58,7 +61,7 @@ class SafecastMeasurementsTileView(View):
             qs = Measurement.objects.filter(date=m)
             month_layername = m.strftime("%Y%m")
             layers[month_layername] = {
-                        "pixel_size": 1500,  # currently hard-coded in measurements.management.commands.load_safecast_csv
+                        "pixel_size": mlayer.pixel_size_meters,  # currently hard-coded in measurements.management.commands.load_safecast_csv
                         "point_position": "upperleft",
                         "model_queryset": qs,
                         "model_point_fieldname": "location",
