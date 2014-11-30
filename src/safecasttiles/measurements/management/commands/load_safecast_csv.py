@@ -10,7 +10,7 @@ from collections import Counter, defaultdict
 from django.contrib.gis.geos import Point, GEOSGeometry
 from django.contrib.gis.gdal.error import OGRException
 from django.core.management.base import BaseCommand, CommandError
-from ...models import Measurement
+from ...models import MeasurementLayer, Measurement
 
 SPHERICAL_MERCATOR_SRID = 3857 # google maps projection
 
@@ -42,6 +42,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         filepath = options["filepath"]
         pixelsize = options["pixelsize"]
+
+        ml = MeasurementLayer(source_filepath=filepath,
+                              pixel_size_meters=pixelsize)
+        ml.save()
 
         day_sum_data = defaultdict(Counter)
         day_counts_data = defaultdict(Counter)
@@ -117,7 +121,9 @@ class Command(BaseCommand):
             for ewkt_key in day_sum_data[date_key]:
                 counts = day_counts_data[date_key][ewkt_key]
                 result = day_sum_data[date_key][ewkt_key]/counts
-                m = Measurement(location=GEOSGeometry(ewkt_key),
+                m = Measurement(
+                                layer=ml,
+                                location=GEOSGeometry(ewkt_key),
                                 date=d,
                                 counts=counts,
                                 value=result,
