@@ -39,7 +39,7 @@ class TestDjangoRasterTileLayerManager(TestCase):
     (probably should incorporate this into rtm lib...)
     """
 
-    def test_get_tile(self):
+    def test_sphericalmercator_to_pixel(self):
         pixel_size_meters = 250
         tile_pixel_size = 256
         zoom = 10
