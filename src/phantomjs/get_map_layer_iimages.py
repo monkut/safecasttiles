@@ -3,7 +3,7 @@ Create png image of map given a url containing Layers
 """
 import os
 import json
-import urllib
+from urllib.request import urlopen
 import subprocess
 
 def create_map_layer_image(url, layername, output_dir):
@@ -38,7 +38,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # get JSON list from layers
-    layers_data = json.loads(urllib.request.urlopen(args.url).read())
+    layers_data = json.loads(urlopen(args.url).read())
     for layer_data in layers_data:
         layer_url = "{}/?layer={}".format(args.mapurl, layers_data["layername"])
         result_filepath = create_map_layer_image(layer_url, layers_data["layername"], args.outputdir)
