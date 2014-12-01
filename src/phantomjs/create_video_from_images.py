@@ -10,6 +10,7 @@ def copy_and_number(directory, ext=".png"):
     files = [os.path.join(directory, f) for f in os.listdir(directory) if f.lower().endswith(ext)]
     # assume files are named as YYYYMM.png
     with tempfile.TemporaryDirectory(prefix="numbered_imgs__") as tmpdirname:
+        print("\tcreated temp directory: {}".format(tmpdirname))
         for idx, f in enumerate(sorted(files), 1):
             filename, extension = os.path.splitext(os.path.split(f)[-1])
             numbered_filename = "safecastimg__{:02}{}".format(idx, extension)
