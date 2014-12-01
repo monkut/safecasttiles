@@ -36,7 +36,7 @@ def create_video(source_directory, outputdir, filename_format="safecastimg__%02d
     current_directory = os.getcwd()
     os.chdir(source_directory)
     cmd = ("avconv",
-           "-r", frames_per_second,
+           "-r", str(frames_per_second),
            "-start_number", "1",
            "-i", filename_format,
            "-b:v", "1000k",
