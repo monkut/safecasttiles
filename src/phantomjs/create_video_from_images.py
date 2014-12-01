@@ -4,10 +4,20 @@ From output YYYYMM.png images assemble and create a timelapse video.
 import os
 import shutil
 import subprocess
+import datetime
 import tempfile
 
+START_DATETIME = datetime.datetime(2011, 1, 1)
+
 def copy_and_number(directory, ext=".png"):
-    files = [os.path.join(directory, f) for f in os.listdir(directory) if f.lower().endswith(ext)]
+    files = []
+    for f in os.listdir(directory):
+        if f.lower().endswith(ext):
+            # ignore old entries
+            date_portion, file_ext = os.path.splitext(f)
+            dt = datetime.datetime.strptime(date_portion, "%Y%m")
+            if dt >= START_DATETIME:
+                files.append(os.path.join(directory, f))
     # assume files are named as YYYYMM.png
     with tempfile.TemporaryDirectory(prefix="numbered_imgs__") as tmpdirname:
         print("\tcreated temp directory: {}".format(tmpdirname))
