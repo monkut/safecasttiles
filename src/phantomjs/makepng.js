@@ -36,7 +36,7 @@ function snap(){
             setTimeout(function() {
                 page.render(output_path);
                 phantom.exit();
-            }, 60000);
+            }, 3000); // 3000 == 3 seconds
         }
     });
 }
