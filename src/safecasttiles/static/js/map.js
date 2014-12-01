@@ -41,7 +41,7 @@ function initmap() {
     info.addTo(map);
 
 	// start the map in Fukushima
-	map.setView(new L.LatLng(37.435793, 140.735437), 10);
+	map.setView(new L.LatLng(37.435793, 140.735437), 9);
 	map.addLayer(osm);
 	map.addLayer(localTileLayer);
 }
