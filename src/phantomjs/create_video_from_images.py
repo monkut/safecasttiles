@@ -30,13 +30,13 @@ def copy_and_number(directory, ext=".png"):
         video_filepath = create_video(tmpdirname, outputdir=directory)
         print("Created: {}".format(video_filepath))
 
-def create_video(source_directory, outputdir, filename_format="safecastimg__%02d.png"):
+def create_video(source_directory, outputdir, filename_format="safecastimg__%02d.png", frames_per_second=2):
     output_filename = "imgvideo.mp4"
     output_filepath = os.path.join(outputdir, output_filename)
     current_directory = os.getcwd()
     os.chdir(source_directory)
     cmd = ("avconv",
-           "-r", "1",
+           "-r", frames_per_second,
            "-start_number", "1",
            "-i", filename_format,
            "-b:v", "1000k",
