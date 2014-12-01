@@ -40,6 +40,7 @@ if __name__ == "__main__":
     # get JSON list from layers
     layers_data = json.loads(urlopen(args.layersurl).read().decode('utf-8'))
     for layer_data in layers_data:
+        print(layer_data)
         layer_url = "{}/?layer={}".format(args.mapurl, layers_data["layername"])
         result_filepath = create_map_layer_image(layer_url, layers_data["layername"], args.outputdir)
         print(result_filepath)
