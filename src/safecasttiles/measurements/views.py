@@ -41,6 +41,12 @@ class Legend:
         max_h = 61
         min_h = 246
         color_range = min_h - max_h
+
+        if value > max_value:
+            value = max_value
+        elif value < min_value:
+            value = min_value
+
         value_percentage = (value - min_value)/full_range
         h = int(color_range - (value_percentage * color_range))
         return "hsl({}, 100%, 50%)".format(h)
@@ -66,7 +72,7 @@ class SafecastMeasurementsTileView(View):
                         "model_queryset": qs,
                         "model_point_fieldname": "location",
                         "model_value_fieldname": "value",
-                        "legend_instance": legend,  # returns a hslcolor_str
+                        "legend_instance": legend,  # object with '.get_color_str()' method that returns an rgb() or hsl() color string.
                         }
         self.tilemgr = DjangoRasterTileLayerManager(layers)
 
@@ -75,6 +81,8 @@ class SafecastMeasurementsTileView(View):
         logger.info("layername({}) zoom({}) x({}) y({}) image_format({})".format(layername, zoom, x, y, image_format))
         mimetype, tile_pil_img_object = self.tilemgr.get_tile(layername, zoom, x, y)
         image_encoding = image_format.replace(".", "")
+
+        # pillow tile_pil_img_object.tobytes() doesn't seem to work, workaround to serve raw bytes via BytesIO()
         image_fileio = BytesIO()
         tile_pil_img_object.save(image_fileio, image_encoding)
         image_fileio.seek(0)
