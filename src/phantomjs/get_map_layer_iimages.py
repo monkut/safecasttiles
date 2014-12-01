@@ -11,6 +11,7 @@ def create_map_layer_image(url, layername, output_dir):
     output_filepath = os.path.join(os.path.abspath(output_dir), output_filename)
     cmd = (
            "phantomjs",
+           "./makepng.js",
            url,
            output_filepath
             )
@@ -40,7 +41,7 @@ if __name__ == "__main__":
     # get JSON list from layers
     layers_data = json.loads(urlopen(args.layersurl).read().decode('utf-8'))
     for layer_data in layers_data:
-        layer_url = "{}/?layer={}".format(args.mapurl, layer_data["layername"])
+        layer_url = "{}?layer={}".format(args.mapurl, layer_data["layername"])
         result_filepath = create_map_layer_image(layer_url, layer_data["layername"], args.outputdir)
         print(result_filepath)
 
