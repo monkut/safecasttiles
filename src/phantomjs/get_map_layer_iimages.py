@@ -38,7 +38,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # get JSON list from layers
-    layers_data = json.loads(urlopen(args.url).read())
+    layers_data = json.loads(urlopen(args.layersurl).read())
     for layer_data in layers_data:
         layer_url = "{}/?layer={}".format(args.mapurl, layers_data["layername"])
         result_filepath = create_map_layer_image(layer_url, layers_data["layername"], args.outputdir)
