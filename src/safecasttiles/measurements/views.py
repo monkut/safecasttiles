@@ -95,7 +95,8 @@ def get_month_layers(request):
     for m in months:
         month_layername = m.strftime("%Y%m")
         layer_url = urljoin(SAFECAST_TILELAYER_PREFIX, month_layername)
-        layers.append(layer_url)
+        layer_data = {"url": layer_url, "layername": month_layername, "mapurl": "/index.html"}
+        layers.append(layer_data)
     return HttpResponse(json.dumps(layers), content_type="application/json")
 
 
