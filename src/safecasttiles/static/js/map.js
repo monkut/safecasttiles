@@ -20,7 +20,7 @@ function initmap() {
     var localTileLayerUrl = 'http://10.143.166.17:8000/tiles/' + localLayerName + '/{z}/{x}/{y}.png';
 	var localTileLayer = new L.TileLayer(localTileLayerUrl, {minZoom: 8, maxZoom: 12, attribution: "safecast.org", tms: true});
 
-	// set up the map
+	// set up the map with mapOptions (toggles zoom control)
 	map = new L.Map('map', mapOptions);
 
 	// create the tile layer with correct attribution
@@ -40,7 +40,11 @@ function initmap() {
     };
     // method that we will use to update the control based on feature properties passed (update function ote used atm)
     info.update = function (props) {
-        this._div.innerHTML = '<h4>' + localLayerName + '</h4>';
+        // parse localLayerName to int year and month to create display timeline overlay
+        var selectedLayerYear = parseInt(localLayerName.substring(0, 4));
+        var selectedLayerMonth = parseInt(localLayerName.substring(4, 6));
+        //this._div.innerHTML = '<h4>' + localLayerName + '</h4>';
+        this._div.innerHTML = getTimeline(selectedLayerYear, selectedLayerMonth);
     };
     info.addTo(map);
 
