@@ -43,6 +43,9 @@ function initmap() {
         // parse localLayerName to int year and month to create display timeline overlay
         var selectedLayerYear = parseInt(localLayerName.substring(0, 4));
         var selectedLayerMonth = parseInt(localLayerName.substring(4, 6));
+        console.log(localLayerName);
+        console.log(selectedLayerYear);
+        console.log(selectedLayerMonth);
         //this._div.innerHTML = '<h4>' + localLayerName + '</h4>';
         this._div.innerHTML = getTimeline(selectedLayerYear, selectedLayerMonth);
     };
