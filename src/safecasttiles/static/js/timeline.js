@@ -39,5 +39,5 @@ function getTimeline(year, month){
     };
     barDiv.appendChild(timelineDiv);
 
-    return barDiv;
+    return barDiv.outerHTML;
 }
