@@ -21,9 +21,7 @@ function initmap() {
 	var localTileLayer = new L.TileLayer(localTileLayerUrl, {minZoom: 8, maxZoom: 12, attribution: "safecast.org", tms: true});
 
 	// set up the map
-
-	if (
-	map = new L.Map('map');
+	map = new L.Map('map', mapOptions);
 
 	// create the tile layer with correct attribution
 	//var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
