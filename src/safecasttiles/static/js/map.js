@@ -42,7 +42,12 @@ function initmap() {
     info.update = function (props) {
         // parse localLayerName to int year and month to create display timeline overlay
         var selectedLayerYear = parseInt(localLayerName.substring(0, 4));
+        // workaround for phantomjs parseInt issue
         var selectedLayerMonth = parseInt(localLayerName.substring(4));
+        if (localLayerName.substring(4, 5) == "0"){
+            selectedLayerMonth = parseInt(localLayerName.substring(5));
+        };
+
         console.log("localLayerName: " + localLayerName);
         console.log("Parsed selectedLayerYear: " + selectedLayerYear);
         console.log("Parsed selectedLayerMonth: " + selectedLayerMonth);
