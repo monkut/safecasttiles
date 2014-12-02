@@ -47,10 +47,6 @@ function initmap() {
         if (localLayerName.substring(4, 5) == "0"){
             selectedLayerMonth = parseInt(localLayerName.substring(5));
         };
-
-        console.log("localLayerName: " + localLayerName);
-        console.log("Parsed selectedLayerYear: " + selectedLayerYear);
-        console.log("Parsed selectedLayerMonth: " + selectedLayerMonth);
         this._div.innerHTML = getTimeline(selectedLayerYear, selectedLayerMonth);
     };
     info.addTo(map);

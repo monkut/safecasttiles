@@ -1,10 +1,7 @@
 
 
 function getTimeline(year, month){
-    console.log(year);
-    console.log(month);
     var selectedDate = new Date(year, month-1);
-    console.log(selectedDate);
     // create and adjust relative dates
     var dateMinus2 = new Date(selectedDate);
     dateMinus2.setMonth(dateMinus2.getMonth() - 2);
