@@ -42,7 +42,7 @@ function initmap() {
     info.update = function (props) {
         // parse localLayerName to int year and month to create display timeline overlay
         var selectedLayerYear = parseInt(localLayerName.substring(0, 4));
-        var selectedLayerMonth = parseInt(localLayerName.substring(4, 6));
+        var selectedLayerMonth = parseInt(localLayerName.substring(4));
         console.log("localLayerName: " + localLayerName);
         console.log("Parsed selectedLayerYear: " + selectedLayerYear);
         console.log("Parsed selectedLayerMonth: " + selectedLayerMonth);
