@@ -11,19 +11,25 @@ function getParameterByName(name) {
 }
 
 function initmap() {
+    var mapOptions = {zoomControl: false};
+	var localLayerName = getParameterByName("layer");
+	if (!localLayerName){
+	    localLayerName = "201112";
+        mapOptions = {zoomControl: true};  // show zoom control if query string not given (likely to be a user not autobot)
+	};
+    var localTileLayerUrl = 'http://10.143.166.17:8000/tiles/' + localLayerName + '/{z}/{x}/{y}.png';
+	var localTileLayer = new L.TileLayer(localTileLayerUrl, {minZoom: 8, maxZoom: 12, attribution: "safecast.org", tms: true});
+
 	// set up the map
+
+	if (
 	map = new L.Map('map');
 
 	// create the tile layer with correct attribution
 	//var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 	//var osmAttrib='Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
 	//var osm = new L.TileLayer(osmUrl, {minZoom: 8, maxZoom: 12, attribution: osmAttrib});
-	var localLayerName = getParameterByName("layer");
-	if (!localLayerName){
-	    localLayerName = "201112";
-	};
-    var localTileLayerUrl = 'http://10.143.166.17:8000/tiles/' + localLayerName + '/{z}/{x}/{y}.png';
-	var localTileLayer = new L.TileLayer(localTileLayerUrl, {minZoom: 8, maxZoom: 12, attribution: "safecast.org", tms: true});
+
     L.control.scale({metric: true, imperial: false}).addTo(map);
 
     // add layername label
