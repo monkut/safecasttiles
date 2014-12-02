@@ -64,12 +64,11 @@
 }
 
 .bar {
-    height:4px;
+    height:6px;
     background:#eee;
-    width:30%;
+    width:90%;
     position:relative;
     top:13px;
-    //left:0;
     right:0;
 }
 
