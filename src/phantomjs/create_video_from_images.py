@@ -23,14 +23,14 @@ def copy_and_number(directory, ext=".png"):
         print("\tcreated temp directory: {}".format(tmpdirname))
         for idx, f in enumerate(sorted(files), 1):
             filename, extension = os.path.splitext(os.path.split(f)[-1])
-            numbered_filename = "safecastimg__{:02}{}".format(idx, extension)
+            numbered_filename = "safecastimg__{:04}{}".format(idx, extension)
             output_filepath = os.path.join(tmpdirname, numbered_filename)
             shutil.copy(f, output_filepath)
             print("Copied ({}) to: {}".format(filename, output_filepath))
         video_filepath = create_video(tmpdirname, outputdir=directory)
         print("Created: {}".format(video_filepath))
 
-def create_video(source_directory, outputdir, filename_format="safecastimg__%02d.png", frames_per_second=2):
+def create_video(source_directory, outputdir, filename_format="safecastimg__%04d.png", frames_per_second=2):
     output_filename = "imgvideo.mp4"
     output_filepath = os.path.join(outputdir, output_filename)
     current_directory = os.getcwd()
