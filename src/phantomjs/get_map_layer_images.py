@@ -36,13 +36,22 @@ if __name__ == "__main__":
                         dest="outputdir",
                         default=".",
                         )
+    parser.add_argument("-n", "--name",
+                        dest="layername",
+                        default=None,
+                        help="If given an image will only be generated for the given layername")
     args = parser.parse_args()
 
-    # get JSON list from layers
-    layers_data = json.loads(urlopen(args.layersurl).read().decode('utf-8'))
-    for layer_data in layers_data:
-        layer_url = "{}?layer={}".format(args.mapurl, layer_data["layername"])
-        result_filepath = create_map_layer_image(layer_url, layer_data["layername"], args.outputdir)
+    if args.layername:
+        layer_url = "{}?layer={}".format(args.mapurl, args.layername)
+        result_filepath = create_map_layer_image(layer_url, args.layername, args.outputdir)
         print(result_filepath)
+    else:
+        # get JSON list from layers
+        layers_data = json.loads(urlopen(args.layersurl).read().decode('utf-8'))
+        for layer_data in layers_data:
+            layer_url = "{}?layer={}".format(args.mapurl, layer_data["layername"])
+            result_filepath = create_map_layer_image(layer_url, layer_data["layername"], args.outputdir)
+            print(result_filepath)
 
 
