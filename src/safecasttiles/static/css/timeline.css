@@ -1,8 +1,7 @@
 
 .timeline {
     white-space:nowrap;
-    //overflow-x: scroll;
-    padding:30px 0 10px 0;
+    padding:10px 0 10px 0;
     position:relative;
 }
 
@@ -11,7 +10,7 @@
     vertical-align:top;
     background:#C0C0C0;
     color:#fff;
-    padding:10px;
+    padding:5px;
     font-size:12px;
     text-align:center;
     position:relative;
@@ -66,7 +65,7 @@
 .bar {
     height:6px;
     background:#eee;
-    width:90%;
+    width:100%;
     position:relative;
     top:13px;
     right:0;
