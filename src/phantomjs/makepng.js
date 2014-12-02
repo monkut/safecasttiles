@@ -3,6 +3,10 @@ var page = require('webpage').create(),
     output_path = "",
     address = "";
 
+page.onConsoleMessage = function(msg, lineNum, sourceId) {
+  console.log('CONSOLE: ' + msg + ' (from line #' + lineNum + ' in "' + sourceId + '")');
+};
+
 var content = '',
     f = null,
     lines = null;
