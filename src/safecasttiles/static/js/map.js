@@ -52,14 +52,14 @@ function initmap() {
     L.control.scale({metric: true, imperial: false}).addTo(map);
 
     // add legend
-    var legend = L.control({position: 'bottomright'});
-    legend.onAdd = function (map) {
-        var legendDivInnerHTML = httpGet("http://10.143.166.17:8000/legend/");
-        var div = L.DomUtil.create("div", "info legend");
-        div.innerHTML += legendDivInnerHTML;
-        return div;
-    };
-    legend.addTo(map);
+    //var legend = L.control({position: 'bottomright'});
+    //legend.onAdd = function (map) {
+    //    var legendDivInnerHTML = httpGet("http://10.143.166.17:8000/legend/");
+    //    var div = L.DomUtil.create("div", "info legend");
+    //    div.innerHTML += legendDivInnerHTML;
+    //    return div;
+    //};
+    //legend.addTo(map);
 
 
     // add layername label
