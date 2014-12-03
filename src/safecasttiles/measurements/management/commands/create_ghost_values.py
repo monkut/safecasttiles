@@ -19,7 +19,6 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('-d', '--depth',
                             dest="depth",
-                            required=True,
                             type=int,
                             default=DEFAULT_DEPTH,
                             help="How many past months to allow as 'ghost' values [DEFAULT={}]".format(DEFAULT_DEPTH))
@@ -37,10 +36,12 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         depth = options["depth"]
+        self.stdout.write("Depth: {}".format(depth))
         bbox = options["bbox"]
         srid = options["srid"]
         bbox_poly = None
         if bbox:
+            self.stdout.write("Using BBOX(srid{}): {}".format(srid, bbox))
             bbox_poly = Polygon.from_bbox(bbox)
             bbox_poly.srid = srid
             if srid != SPHERICAL_MERCATOR_SRID:
