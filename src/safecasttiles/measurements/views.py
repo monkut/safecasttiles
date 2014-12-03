@@ -82,7 +82,7 @@ class Legend:
 
         return result_str
 
-    def html(self, display_band_count, invert=True):
+    def html(self, display_band_count=6, invert=True):
         """
         :param invert: toggle to invert, so that larger values are on top
         :type invert: bool
