@@ -15,7 +15,7 @@ def create_map_layer_image(url, layername, output_dir):
            url,
            output_filepath
             )
-    print(cmd)
+    print("command: ", " ".join(cmd))
     subprocess.check_call(cmd)
     return output_filepath
 
