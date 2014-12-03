@@ -10,6 +10,27 @@ function getParameterByName(name) {
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
+function httpGet(theUrl)
+{
+    if (window.XMLHttpRequest)
+    {// code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+    }
+    else
+    {// code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xmlhttp.onreadystatechange=function()
+    {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+            return xmlhttp.responseText;
+        }
+    }
+    xmlhttp.open("GET", theUrl, false );
+    xmlhttp.send();
+}
+
 function initmap() {
     var mapOptions = {zoomControl: false};
 	var localLayerName = getParameterByName("layer");
@@ -29,6 +50,19 @@ function initmap() {
 	//var osm = new L.TileLayer(osmUrl, {minZoom: 8, maxZoom: 12, attribution: osmAttrib});
 
     L.control.scale({metric: true, imperial: false}).addTo(map);
+
+    // add legend
+    var legend = L.control({position: 'bottomright'});
+
+    legend.onAdd = function (map) {
+        var legendDivInnerHTML = httpGet("http://127.0.0.1:8000/legend/");
+        var div = L.DomUtil.create("div", "info legend");
+        div.innerHTML += legendDivInnerHTML;
+        return div;
+    };
+
+    legend.addTo(map);
+
 
     // add layername label
     var info = L.control();
