@@ -17,7 +17,7 @@ class Measurement(models.Model):
     date = models.DateField()
     counts = models.IntegerField()
     months_to_actual = models.PositiveIntegerField(default=0,
-                                                   help="Number of months since an actual value was here (0 if actual")
+                                                   help_text="Number of months since an actual value was here (0 if actual")
     value = models.FloatField()
     objects = models.GeoManager()
 
