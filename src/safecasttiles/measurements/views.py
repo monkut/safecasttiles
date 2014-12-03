@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 
 class Legend:
 
-    def get_color_str(self, model_instance, model_value_fieldname):
+    def get_color_str(self, model_instance):
         """
         :param value:
         :return:  rgb or hsl color string in the format:
@@ -35,7 +35,7 @@ class Legend:
 
         For example, hsl(0,100%,50%) is pure red.
         """
-        value = getattr(model_instance, model_value_fieldname)
+        value = model_instance.value
         max_value = 3.99
         min_value = 0.03
         full_range = max_value - min_value
