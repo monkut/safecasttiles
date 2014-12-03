@@ -4,8 +4,9 @@ from django.conf.urls.static import static
 from django.views.decorators.cache import cache_page
   # go ahead and cache for 2 hrs
 
-from .measurements.views import SafecastMeasurementsTileView, get_month_layers
+from .measurements.views import SafecastMeasurementsTileView, get_month_layers, get_legend
 urlpatterns = [
     url(r'^layers/$', get_month_layers),
+    url(r'^legend/$', get_legend),  # for display on leaflet map
     url(r'^tiles/', cache_page(60 * 120)(SafecastMeasurementsTileView.as_view())),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
