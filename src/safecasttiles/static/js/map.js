@@ -53,14 +53,12 @@ function initmap() {
 
     // add legend
     var legend = L.control({position: 'bottomright'});
-
     legend.onAdd = function (map) {
         var legendDivInnerHTML = httpGet("http://127.0.0.1:8000/legend/");
         var div = L.DomUtil.create("div", "info legend");
         div.innerHTML += legendDivInnerHTML;
         return div;
     };
-
     legend.addTo(map);
 
 
