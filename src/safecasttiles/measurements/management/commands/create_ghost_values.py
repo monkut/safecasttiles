@@ -70,9 +70,10 @@ class Command(BaseCommand):
                         # check depth, update date, increment months_to_actual
                         previous_measurement = prevous_month_measurements[previous_measurement_location]
                         if previous_measurement.months_to_actual <= depth:
+                            previous_measurement.pk = None  # clear pk in order to force creation of new measurment.
                             previous_measurement.date = m
                             previous_measurement.months_to_actual += 1
-                            previous_measurement.save(force_insert=True)
+                            previous_measurement.save()
                             # add to current measurements
                             current_measurements[previous_measurement_location] = previous_measurement
                             ghost_measurements_created += 1
