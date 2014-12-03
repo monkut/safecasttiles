@@ -62,6 +62,8 @@ class Legend:
             # adjust saturation based on months_to_actual
             # moves color to grey
             saturation = 1.0 - (model_instance.months_to_actual / self.maximum_depth)
+            if saturation < 0.0:
+                saturation = 0.0
 
         saturation_percentage = int(100 * saturation)
 
