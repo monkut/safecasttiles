@@ -7,13 +7,16 @@ a:visited {
     text-decoration: none;
 }
 
+/* unvisited link */
 a:link {
-    background-color: #FFFFFF;
+    color: #FFFFFF;
 }
 
+/* visited link */
 a:visited {
-    background-color: #FFFFFF;
+    color: #FFFFFF;
 }
+
 
 .timeline {
     white-space:nowrap;
