@@ -55,6 +55,7 @@ function initmap() {
     var legend = L.control({position: 'bottomright'});
     legend.onAdd = function (map) {
         var div = L.DomUtil.create("div", "info legend");
+        div.innerHTML += '<h2>&mu;Sv/Hour</h2>';
         div.innerHTML += '<i style="background:#ff0000"></i>3.99 +<br>';
         div.innerHTML += '<i style="background:#ff9d00"></i>3.2 &#126; 3.99<br>';
         div.innerHTML += '<i style="background:#c3ff00"></i>2.41 &#126; 3.2<br>';
