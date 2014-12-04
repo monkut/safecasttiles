@@ -9,6 +9,7 @@ import tempfile
 
 START_DATETIME = datetime.datetime(2011, 1, 1)
 
+
 def copy_and_number(directory, ext=".png"):
     files = []
     for f in os.listdir(directory):
@@ -29,6 +30,7 @@ def copy_and_number(directory, ext=".png"):
             print("Copied ({}) to: {}".format(filename, output_filepath))
         video_filepath = create_video(tmpdirname, outputdir=directory)
         print("Created: {}".format(video_filepath))
+
 
 def create_video(source_directory, outputdir, filename_format="safecastimg__%04d.png", frames_per_second=2):
     output_filename = "imgvideo.mp4"
