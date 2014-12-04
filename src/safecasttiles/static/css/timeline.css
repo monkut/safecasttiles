@@ -18,6 +18,17 @@ a:visited {
 }
 
 
+/* mouse over link */
+a:hover {
+    color: #FFFFFF;
+}
+
+/* selected link */
+a:active {
+    color: #FFFFFF;
+}
+
+
 .timeline {
     white-space:nowrap;
     padding:25px 0 10px 0;
