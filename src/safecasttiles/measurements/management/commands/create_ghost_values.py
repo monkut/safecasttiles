@@ -1,20 +1,20 @@
 """
 Create ghosting values.
 Create Measurement objects for locations where measurements currently do NOT exist.
-Currently just hold the latest value and fade via the alpha
+Currently just hold the latest value and fade via the color staturation
 """
 from django.contrib.gis.geos import Polygon
 from django.core.management.base import BaseCommand, CommandError
 from ...models import MeasurementLayer, Measurement
 
-__author__ = 'q16127'
 
-SPHERICAL_MERCATOR_SRID = 3857 # google maps projection
+SPHERICAL_MERCATOR_SRID = 3857  # google maps projection
 
 DEFAULT_DEPTH = 6
 
+
 class Command(BaseCommand):
-    help = 'Load & aggregate Safecast CSV data'
+    help = __doc__
 
     def add_arguments(self, parser):
         parser.add_argument('-d', '--depth',
