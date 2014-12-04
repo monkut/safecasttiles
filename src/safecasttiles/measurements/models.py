@@ -1,4 +1,3 @@
-from colorsys import rgb_to_hls, hls_to_rgb
 from django.contrib.gis.db import models
 
 SPHERICAL_MERCATOR_SRID = 3857 # google maps projection
