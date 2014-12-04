@@ -1,4 +1,12 @@
 
+a:link {
+    text-decoration: none;
+}
+
+a:visited {
+    text-decoration: none;
+}
+
 .timeline {
     white-space:nowrap;
     padding:25px 0 10px 0;
