@@ -7,6 +7,14 @@ a:visited {
     text-decoration: none;
 }
 
+a:link {
+    background-color: #FFFFFF;
+}
+
+a:visited {
+    background-color: #FFFFFF;
+}
+
 .timeline {
     white-space:nowrap;
     padding:25px 0 10px 0;
