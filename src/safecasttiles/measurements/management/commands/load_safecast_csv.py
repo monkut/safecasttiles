@@ -1,5 +1,6 @@
 """
-Load & process the safecast CSV file
+Load & aggregate the safecast CSV data to monthly averages stored in Measurement model objects.
+(Data available at http://blog.safecast.org/data/)
 """
 import csv
 import gzip
@@ -9,10 +10,11 @@ from collections import Counter, defaultdict
 
 from django.contrib.gis.geos import Point, GEOSGeometry
 from django.contrib.gis.gdal.error import OGRException
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from ...models import MeasurementLayer, Measurement
 
 SPHERICAL_MERCATOR_SRID = 3857 # google maps projection
+
 
 def cpm2usv(cpm_value):
     """
@@ -23,10 +25,8 @@ def cpm2usv(cpm_value):
     return cpm_value * usv_per_click
 
 
-
-
 class Command(BaseCommand):
-    help = 'Load & aggregate Safecast CSV data'
+    help = __doc__
 
     def add_arguments(self, parser):
         parser.add_argument('-f', '--filepath',
@@ -35,7 +35,7 @@ class Command(BaseCommand):
                             help="Filepath to Safcast CSV file")
         parser.add_argument("-p", "--pixelsize",
                             dest="pixelsize",
-                            default=250,
+                            default=1500,
                             type=int,
                             help="Size of pixels/bins in meters [DEFAULT=250]")
 
@@ -98,12 +98,12 @@ class Command(BaseCommand):
                         if row["Unit"].lower() == "cpm":
 
                                 # convert cpm to usv
-                                cpm_value =  int(float(row["Value"]))
+                                cpm_value = int(float(row["Value"]))
                                 usv_value = cpm2usv(cpm_value)
                                 day_sum_data[date_key][binned_p.ewkt] += usv_value
                                 day_counts_data[date_key][binned_p.ewkt] += 1
                         elif row["Unit"].lower() in ("usv", "microsievert"):
-                            usv_value =  float(row["Value"])
+                            usv_value = float(row["Value"])
                             day_sum_data[date_key][binned_p.ewkt] += usv_value
                             day_counts_data[date_key][binned_p.ewkt] += 1
                         else:
@@ -134,5 +134,3 @@ class Command(BaseCommand):
         end = datetime.datetime.now()
         elapsed = end - start
         self.stdout.write("Elapsed Time: {}".format(elapsed))
-
-
