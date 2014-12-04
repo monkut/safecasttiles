@@ -139,6 +139,7 @@ class SafecastMeasurementsTileView(View):
                         "model_queryset": qs,
                         "model_point_fieldname": "location",
                         "model_value_fieldname": "value",
+                        "rounded_pixels": True,
                         "legend_instance": legend,  # object with '.get_color_str()' method that returns an rgb() or hsl() color string.
                         }
         self.tilemgr = DjangoRasterTileLayerManager(layers)
