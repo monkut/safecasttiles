@@ -28,7 +28,13 @@ function getTimeline(year, month){
     for (var idx = 0; idx < arrayLength; idx++) {
         var thisDate = dateEntries[idx];
         var entryDiv = document.createElement("div");
-        entryDiv.innerHTML = '<h1>' + (thisDate.getMonth() + 1) + '</h1>';
+        var thisMonth = (thisDate.getMonth() + 1);
+        var thisMonthStr = thisMonth.toString();
+        if (thisMonthStr.length == 1){
+            thisMonthStr = "0" + thisMonth;
+        }
+        var thisDateLayerName =   thisDate.getFullYear().toString() + thisMonthStr;
+        entryDiv.innerHTML = '<h1><a href="/index.html?' + thisDate.getFullYear() + (thisDate.getMonth() + 1) + '">' + (thisDate.getMonth() + 1) + '</a></h1>';
         entryDiv.className = "entry";
         if (idx == selectedDateIndex){
             entryDiv.className = "entry-selected";
