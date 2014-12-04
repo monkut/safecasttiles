@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models
 
-SPHERICAL_MERCATOR_SRID = 3857 # google maps projection
+SPHERICAL_MERCATOR_SRID = 3857  # google maps projection
 
 class MeasurementLayer(models.Model):
     created_datetime = models.DateTimeField(auto_now_add=True)
@@ -16,6 +16,6 @@ class Measurement(models.Model):
     date = models.DateField()
     counts = models.IntegerField()
     months_to_actual = models.PositiveIntegerField(default=0,
-                                                   help_text="Number of months since an actual value was here (0 if actual")
+                                                   help_text="Number of months since an actual value (0 if actual)")
     value = models.FloatField()
     objects = models.GeoManager()
