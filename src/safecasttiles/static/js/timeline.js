@@ -34,7 +34,8 @@ function getTimeline(year, month){
             thisMonthStr = "0" + thisMonth;
         }
         var thisDateLayerName =   thisDate.getFullYear().toString() + thisMonthStr;
-        entryDiv.innerHTML = '<h1><a href="/index.html?' + thisDate.getFullYear() + (thisDate.getMonth() + 1) + '">' + (thisDate.getMonth() + 1) + '</a></h1>';
+        //entryDiv.innerHTML = '<h1><a href="/index.html?' + thisDate.getFullYear() + (thisDate.getMonth() + 1) + '">' + (thisDate.getMonth() + 1) + '</a></h1>';
+        entryDiv.innerHTML = '<h1>' + (thisDate.getMonth() + 1) + '</h1>';
         entryDiv.className = "entry";
         if (idx == selectedDateIndex){
             entryDiv.className = "entry-selected";
