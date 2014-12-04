@@ -21,16 +21,25 @@ logger = logging.getLogger(__name__)
 class Legend:
 
     def __init__(self, maximum_value, minimum_value, maximum_hue=61, minimum_hue=246, maximum_depth=6):
+        """
+        :param maximum_value:
+        :param minimum_value:
+        :param maximum_hue: Hue in HSL color
+        :param minimum_hue: Hue in HSL color
+        :param maximum_depth: Number of maximum months back to support. (Used to determine color saturation fade value)
+        :return:
+        """
         self.maximum_value = maximum_value
         self.minimum_value = minimum_value
         self.maximum_hue = maximum_hue
         self.minimum_hue = minimum_hue
         self.maximum_depth = maximum_depth
 
-
     def get_color_str(self, model_instance, value=None, htmlhex=False):
         """
-        :param value:
+        :param model_instance:  Measurement Model instance
+        :param value: Value if model_instance not given (for creating the legend)
+        :param htmlhex: if True, color value is returned as a RGB HEX string.
         :return:  rgb or hsl color string in the format:
 
         rgb(255,0,0)
@@ -134,13 +143,13 @@ class SafecastMeasurementsTileView(View):
             qs = Measurement.objects.filter(date=m)
             month_layername = m.strftime("%Y%m")
             layers[month_layername] = {
-                        "pixel_size": mlayer.pixel_size_meters,  # currently hard-coded in measurements.management.commands.load_safecast_csv
+                        "pixel_size": mlayer.pixel_size_meters,
                         "point_position": "upperleft",
                         "model_queryset": qs,
                         "model_point_fieldname": "location",
                         "model_value_fieldname": "value",
                         "round_pixels": True,
-                        "legend_instance": legend,  # object with '.get_color_str()' method that returns an rgb() or hsl() color string.
+                        "legend_instance": legend,  # object with '.get_color_str()' method.
                         }
         self.tilemgr = DjangoRasterTileLayerManager(layers)
 
@@ -163,6 +172,11 @@ def get_legend(request):
 
 
 def get_month_layers(request):
+    """
+    Create a JSON list of available monthly layers
+    :param request: django Request object
+    :return: JSON list of layers
+    """
     months = Measurement.objects.order_by("date").values_list('date', flat=True).distinct()
     layers = []
     for m in months:
