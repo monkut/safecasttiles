@@ -3,6 +3,9 @@ safecasttiles
 
 A python3 django 1.8 project for generating & serving map tiles from safecast CSV data (http://blog.safecast.org/data/).
 
+Sample timelapse created with tiles rendered with this project:
+
+https://plus.google.com/u/0/114056874915345387620/posts/YkUsdcvejXY?pid=6088998041645036706&oid=114056874915345387620
 
 
 Libraries/Tools
