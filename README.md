@@ -17,7 +17,7 @@ Libraries/Tools
 Required
 .............
 
-- tmstiler (https://github.com/monkut/tmstiles)
+- tmstiler (https://github.com/monkut/tmstiler)
 
 - django (geodjango) >= 1.8
 
