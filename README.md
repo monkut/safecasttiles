@@ -1,5 +1,5 @@
-safecasttiles
-=============
+# safecasttiles
+
 
 A python3 django 1.8 project for generating & serving map tiles from safecast CSV data (http://blog.safecast.org/data/).
 
@@ -11,11 +11,10 @@ Sample image created with tiles rendered with this project:
 
 
 
-Libraries/Tools
--------------------
+## Libraries/Tools
 
-Required
-.............
+
+### Required
 
 - tmstiler (https://github.com/monkut/tmstiler)
 
@@ -25,8 +24,7 @@ Required
 
 - leafletjs (include)d
 
-Optional
-..............
+### Optional
 
 - phantomjs (http://phantomjs.org/)
   For image capture
@@ -34,8 +32,8 @@ Optional
 - avconv
   For timelapse video creation
 
-Loading & Creating Data
--------------------------------
+## Loading & Creating Data
+
 
 The following django management commands are used to load and aggregate the safecast CSV data.
 
